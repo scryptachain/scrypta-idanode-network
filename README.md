@@ -8,7 +8,7 @@ Scrypta Blockchain è una rete decentralizzata e distribuita non avente un singo
 
 ## A chi è rivolta
 
-L'iniziativa è rivolta principalmente a sviluppatori, aziende interessate a sviluppare il network Scrypta ed entusisiasti del progetto che hanno voglia di contribuire. Sono richieste competenze tecniche per la messa in opera e gestione della macchina, che verrà ricompensata in base all'efficienza costante.
+L'iniziativa è rivolta principalmente a sviluppatori, aziende interessate a sviluppare il network Scrypta ed entusisiasti del progetto che hanno voglia di contribuire nonchè al contratto di rete Scrypta Consortium. Sono richieste competenze tecniche per la messa in opera e gestione della macchina, che verrà ricompensata in base all'efficienza costante.
 
 ## Reward system
 
@@ -41,3 +41,8 @@ Lo stato dell'IdaNode potrà essere controllato nella piattaforma https://watcht
 ## Politica di delisting
 
 Qualora un IdaNode rimane inattivo per più di 7gg allora verrà automaticamente delistato dalla lista dei `peers` e quindi da `@scrypta/core`.
+
+## Requisiti tecnici minimi per l’IdANode
+
+E’ fondamentale dotare l’IdaNode di una potenza adeguata, pertanto si raccomanda di usare una VPS Linux con almeno 2GB di Ram e 50GB SSD.
+Si raccomanda di **non** attivare più IdANode all’interno dello stesso server, sia esso fisico o virtuale, per evitare centralizzazione e sovraccarico del network. Gli indirizzi IP supportati sono unicamente gli indirizzi IP v4.
