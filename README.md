@@ -4,7 +4,7 @@ Questo repository servirà a gestire tutti gli IdaNode gestiti da Scrypta dirett
 
 ## Obiettivo dell'iniziativa
 
-Scrypta Blockchain è una rete decentralizzata e distribuita non avente un singolo organo di controllo. Per garantire la distribuzione anche alla rete di secondo livello degli IdaNode è necessario che il network sia egualmente mantenuto da più parti. Per garantire questo risultato Scrypta Foundation creerà una staking pool allocando una quantità di LYRA per ogni IdaNode attivato. La quantità di LYRA allocata dipende da alcuni fattori quali il possesso di altri masternode e altri fattori che verranno comunicati di seguito in via definitiva.
+Scrypta Blockchain è una rete decentralizzata e distribuita non avente un singolo organo di controllo. Per garantire la distribuzione anche alla rete di secondo livello degli IdaNode è necessario che il network sia egualmente mantenuto da più parti. Per garantire questo risultato Scrypta Foundation creerà una staking pool allocando una quantità di 5.000 LYRA per ogni IdaNode attivato per un massimo totale di 100.000 LYRA.
 
 ## A chi è rivolta
 
@@ -28,14 +28,15 @@ La somma dei singoli uptime restituiranno gli shares totali e quindi i calcoli p
 Nel file `peers` verranno annotati tutti gli IdaNode accettati e dovranno essere annotati secondo una forma ben precisa. Ogni riga dovrà contenere questo tipo di informazioni:
 
 ```
-N_PROGRESSIVO:INDIRIZZO_IP:PUBKEY_INDIRIZZO_IDANODE
+N_PROGRESSIVO:INDIRIZZO_IP:PUBKEY_IDANODE
 ```
 
 Il numero progressivo andrà ricavato sommando `1` al numero progressivo superiore. Per i numeri inferiori a `10` è necessario aggiungere lo `0` iniziale così da avere progressivi di due cifre.
 
 ## Come richiedere l'aggiunta
 
-L'aggiunta va fatta direttamente in questo repository, comunicando i parametri richiesti `INDIRIZZO_IP` e `INDIRIZZO_LYRA`. A seguito della richiesta e dell'accettazione l'IdaNode verrà inserito all'interno del file `peers`, della libreria npm `@scrypta/core` e quindi nella piattaforma https://watchtower.scryptachain.org.
+L'aggiunta va fatta direttamente in questo repository, comunicando i parametri richiesti `INDIRIZZO_IP` e `PUBKEY_IDANODE`. A seguito della richiesta e dell'accettazione l'IdaNode verrà inserito all'interno del file `peers` e quindi richiamabile dalla libreria npm `@scrypta/core`.
+Lo stato dell'IdaNode potrà essere controllato nella piattaforma https://watchtower.scryptachain.org.
 
 ## Politica di delisting
 
