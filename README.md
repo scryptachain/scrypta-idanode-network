@@ -38,6 +38,8 @@ Il numero progressivo andrà ricavato sommando `1` al numero progressivo superio
 L'aggiunta va fatta direttamente in questo repository, comunicando i parametri richiesti `INDIRIZZO_IP` e `PUBKEY_IDANODE`. A seguito della richiesta e dell'accettazione l'IdaNode verrà inserito all'interno del file `peers` e quindi richiamabile dalla libreria npm `@scrypta/core`.
 Lo stato dell'IdaNode potrà essere controllato nella piattaforma https://watchtower.scryptachain.org.
 
+**Non si potrà richiedere l'inserimento di più di 3 IdANode per singolo soggetto.**
+
 ## Politica di delisting
 
 Qualora un IdaNode rimane inattivo per più di 7gg allora verrà automaticamente delistato dalla lista dei `peers` e quindi da `@scrypta/core`.
