@@ -1,6 +1,6 @@
 # Scrypta IdaNode Network
 
-Questo repository servirà a gestire tutti gli IdaNode gestiti da Scrypta direttamente, così da poter accoppiare indirizzi IP con indirizzi Lyra dell'IdaNode e poter assegnare i sottodomini necessari.
+Questo repository servirà a gestire tutti gli IdaNode gestiti da Scrypta direttamente, così da poter accoppiare indirizzi IP con indirizzi Lyra dell'IdaNode e poter assegnare i sottodomini necessari ad operare via SSL.
 
 ## Obiettivo dell'iniziativa
 
@@ -16,6 +16,7 @@ Le reward verranno divise tra i partecipanti calcolando il totale giornaliero pr
 
 Ogni parte si acquisisce se ogni minuto l'IdaNode soddisfa i seguenti requisiti:
 
+- L'IdaNode espone la sua API attraverso `https` all'indirizzo assegnatoli
 - L'IdaNode è attivo, ovvero risponde alla chiamata `/wallet/getinfo` in modo positivo.
 - L'IdaNode è sincronizzato al network Scrypta con uno scarto massimo di **1** blocco.
 - Il codice dell'IdaNode è integro ed il checksum, controfirmato con il timestamp della richiesta e firmato con lo stesso indirizzo inserito nel file `peers`. Questa operazione avviene in modo automatico all'interno di ogni IdaNode.
