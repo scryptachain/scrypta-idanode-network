@@ -28,6 +28,7 @@
     "better-console": "^1.0.1",
     "dotenv": "^8.2.0",
     "pouchdb": "^7.2.1",
+    "pouchdb-find": "^7.2.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4"
