@@ -144,10 +144,10 @@ async function checkPayouts() {
     let balance = getinfo['result']['balance']
     let stake = idanodes.length * 5000
     balance = balance - stake
-    
+
     console.log('POOL BALANCE IS ' + balance + ' lyra')
     let totpayouts = 0
-    let maxpayouts = 1440 * idanodes.length
+    let maxpayouts = 1440 * idanodes.length    
 
     if(balance !== undefined && balance > 0){
       for(let k in payoutByNodes){
@@ -162,28 +162,34 @@ async function checkPayouts() {
         console.log('24H PASSED, DISTRIBUTING SHARES.')
         let nodes_git = await axios.get('https://raw.githubusercontent.com/scryptachain/scrypta-idanode-network/master/peers')
         let raw_nodes = nodes_git.data.split("\n")
-        let nodes = []
-        for(let x in raw_nodes){
-            let node = raw_nodes[x].split(':')
-            let url = 'https://idanodejs' + node[0] + '.scryptachain.org'
-            let address = await scrypta.getAddressFromPubKey(node[2])
-            console.info('SENDING PAYOUT TO ' + url + ' -> ADDRESS IS ' + address)
-            let validateaddress = await RPC.request('validateaddress',[address])
-            if(validateaddress['result']['isvalid'] !== undefined && validateaddress['result']['isvalid'] === true){
-              let txid = await RPC.request('sendtoaddress', [address, parseFloat(share)])
-              if(txid['result'] !== undefined && txid['error'] === null){
-                let payouts = payoutByNodes[url]
-                for(let xx in payouts){
-                  payouts[xx].paid = true
-                  try{
-                    await db.put(payouts[xx])
-                    console.log('SEND SUCCESS TXID IS: ' + txid['result'])
-                  }catch(e){
-                    console.log(e)
+        let unlockwallet = await RPC.request('walletpassphrase',[process.env.WALLET_PASSWORD,999999])
+
+        if(unlockwallet['error'] === null){
+          for(let x in raw_nodes){
+              let node = raw_nodes[x].split(':')
+              let url = 'https://idanodejs' + node[0] + '.scryptachain.org'
+              let address = await scrypta.getAddressFromPubKey(node[2])
+              console.info('SENDING PAYOUT TO ' + url + ' -> ADDRESS IS ' + address)
+              let validateaddress = await RPC.request('validateaddress',[address])
+              if(validateaddress['result']['isvalid'] !== undefined && validateaddress['result']['isvalid'] === true){
+                let txid = await RPC.request('sendtoaddress', [address, parseFloat(share)])
+                if(txid['result'] !== undefined && txid['error'] === null){
+                  let payouts = payoutByNodes[url]
+                  for(let xx in payouts){
+                    payouts[xx].paid = true
+                    try{
+                      await db.put(payouts[xx])
+                      console.log('SEND SUCCESS TXID IS: ' + txid['result'])
+                    }catch(e){
+                      console.log(e)
+                    }
                   }
                 }
               }
-            }
+          }
+          await RPC.request('walletpassphrase',[process.env.WALLET_PASSWORD,999999999,true])
+        }else{
+          console.error('WALLET PASSPHRASE IS WRONG')
         }
       }else{
         console.log('LESS THAN 24H PASSED.')
