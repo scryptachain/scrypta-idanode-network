@@ -4,6 +4,7 @@
 /db
 .env
 /rewards
+/rewards-*
 
 # Logs
 logs
