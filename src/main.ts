@@ -59,8 +59,11 @@ async function checkSystems() {
         if (check.blocks !== undefined && check.toindex <= 1) {
           console.info('IDANODE IS SYNCED [' + check.toindex + ' BLOCKS]')
           console.log('INTEGRITY CHECK ON ' + node)
-          let checkversion = await checkVersion(check.version)
-          if (checkversion) {
+          
+          let checksumversion = await checkVersion(check.version)
+          let integritycheck = await scrypta.get('/wallet/integritycheck', node)
+          
+          if (checksumversion === integritycheck.checksum) {
             console.info('IDANODE INTEGRITY CHECK PASSED')
 
             let _id = Crypto.createHash("sha256").update(timestamp + 'N' + node).digest("hex")
