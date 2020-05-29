@@ -19,9 +19,9 @@ Ogni parte si acquisisce se ogni minuto l'IdaNode soddisfa i seguenti requisiti:
 - L'IdaNode espone la sua API attraverso `https` all'indirizzo assegnatoli
 - L'IdaNode è attivo, ovvero risponde alla chiamata `/wallet/getinfo` in modo positivo.
 - L'IdaNode è sincronizzato al network Scrypta con uno scarto massimo di **1** blocco.
-- Il codice dell'IdaNode è integro ed il checksum, controfirmato con il timestamp della richiesta e firmato con lo stesso indirizzo inserito nel file `peers`. Questa operazione avviene in modo automatico all'interno di ogni IdaNode.
+- Il codice dell'IdaNode è integro ed il checksum, controfirmato con il timestamp della richiesta e firmato con lo stesso indirizzo inserito nel file `peers`.
 
-La somma dei singoli uptime restituiranno gli shares totali e quindi i calcoli percentuali per singolo IdaNode. Queste verranno inviate in modo automatico su base giornaliera, alle 00.00 di ogni giorno.
+La somma dei singoli uptime restituiranno gli shares totali e quindi i calcoli percentuali per singolo IdaNode. Queste verranno inviate in modo automatico ogni 24h all'indirizzo.
 
 ## Come funziona l'elenco degli IdaNode
 
