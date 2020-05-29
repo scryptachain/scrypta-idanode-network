@@ -66,7 +66,8 @@ export class AppService {
         let balance = getinfo['result']['balance']
         let stake = idanodes.length * 5000
         balance = balance - stake
-        if(balance < 0){
+
+        if (balance < 0) {
           balance = 0
         }
         let totpayouts = 0
@@ -76,16 +77,24 @@ export class AppService {
           totpayouts += payoutByNodes[k].length
         }
         let shares = {}
+        let earnings = {}
         for (let k in payoutByNodes) {
           var share = (balance * payoutByNodes[k].length / totpayouts).toFixed(8)
-          shares[k] = balance / 100 * parseFloat(share)
+          earnings[k] = share + ' LYRA'
+          if (balance > 0) {
+            let percentage = (100 / balance * parseFloat(share)).toFixed(2)
+            shares[k] = parseFloat(percentage)
+          } else {
+            shares[k] = 0
+          }
         }
 
         let midpayouts = totpayouts / idanodes.length
-        
+
         response({
           uptime: payoutByNodesCount,
           timing: parseFloat(midpayouts.toFixed(0)),
+          earnings: earnings,
           shares: shares,
           stake: balance
         })
