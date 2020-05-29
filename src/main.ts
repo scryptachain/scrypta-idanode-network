@@ -147,7 +147,7 @@ async function checkPayouts() {
 
     console.log('POOL BALANCE IS ' + balance + ' lyra')
     let totpayouts = 0
-    let maxpayouts = 1440 * idanodes.length    
+    let maxpayouts = 1440    
 
     if(balance !== undefined && balance > 0){
       for(let k in payoutByNodes){
@@ -158,7 +158,11 @@ async function checkPayouts() {
         var share = (balance * payoutByNodes[k].length / totpayouts).toFixed(8)
         console.info(k + ' HAVE ' + share + ' LYRA TO EARN')
       }
-      if(totpayouts >= maxpayouts){
+      
+      let midpayouts = totpayouts / idanodes.length
+      console.log('MID PAYOUTS ARE ' + midpayouts)
+
+      if(midpayouts >= maxpayouts){
         console.log('24H PASSED, DISTRIBUTING SHARES.')
         let nodes_git = await axios.get('https://raw.githubusercontent.com/scryptachain/scrypta-idanode-network/master/peers')
         let raw_nodes = nodes_git.data.split("\n")
