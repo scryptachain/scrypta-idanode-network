@@ -75,6 +75,7 @@ async function checkSystems() {
               block: check.blocks,
               toindex: check.toindex,
               paid: false,
+              timestamp: timestamp,
               ref: ref
             })
 
@@ -130,7 +131,7 @@ async function checkPayouts() {
         paid: false
       }
     })
-    unpaid.docs.sort(function(a, b){return a-b})
+    unpaid.docs.sort(function(a, b){return a.block - b.block})
     let toPay = unpaid.docs
     let payoutByNodes = {}
     for(let x in toPay){

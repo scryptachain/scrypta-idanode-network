@@ -12,7 +12,12 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post()
+  @Get('/status')
+  getStatus(): Promise<Object> {
+    return this.appService.getStatus();
+  }
+
+  @Post('/history')
   async getHistory(@Body() request): Promise<Object> {
     if(request.node !== undefined){
       let idanodes = await scrypta.returnNodes()
