@@ -12,7 +12,7 @@ L'iniziativa è rivolta principalmente a sviluppatori, aziende interessate a svi
 
 ## Reward system
 
-Le reward verranno divise tra i partecipanti calcolando il totale giornaliero prodotto dalla pool e dividendolo per il numero delle partecipazioni per ogni Idanodehttps://cdn.discordapp.com/attachments/448044054983475202/715858440731361290/unknown.png. La proporzione degli IdaNode viene calcolata in base all'uptime e quindi la partecipazione di ogni IdaNode è calcolata in 1440 parti.
+Le reward verranno divise tra i partecipanti calcolando il totale giornaliero prodotto dalla pool e dividendolo per il numero delle partecipazioni per ogni Idanode. Le partecipazioni per ogni IdaNode vengono calcolate in base all'uptime e quindi la partecipazione di ogni IdaNode è calcolata in 1440 parti. La somma totale delle partecipazioni ci darà il 100% dell'uptime in minuti.
 
 Ogni parte si acquisisce se ogni minuto l'IdaNode soddisfa i seguenti requisiti:
 
