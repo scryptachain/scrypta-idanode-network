@@ -80,10 +80,11 @@ export class AppService {
         let earnings = {}
         for (let k in payoutByNodes) {
           var share = (balance * payoutByNodes[k].length / totpayouts).toFixed(8)
-          earnings[k] = share + ' LYRA'
+          earnings[k] = share
           if (balance > 0) {
             let percentage = (100 / balance * parseFloat(share)).toFixed(2)
             shares[k] = parseFloat(percentage)
+            earnings[k] = parseFloat(share) - 0.003
           } else {
             shares[k] = 0
           }
