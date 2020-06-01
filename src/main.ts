@@ -182,6 +182,7 @@ async function checkPayouts() {
               let validateaddress = await RPC.request('validateaddress',[address])
               if(validateaddress['result']['isvalid'] !== undefined && validateaddress['result']['isvalid'] === true){
                 let sharelessfees = parseFloat(share) - 0.003
+                await RPC.request('settxfee', [0.003])
                 let txid = await RPC.request('sendtoaddress', [address, sharelessfees])
                 if(txid['result'] !== undefined && txid['error'] === null){
                   let payouts = payoutByNodes[url]
