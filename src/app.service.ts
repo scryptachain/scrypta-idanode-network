@@ -33,7 +33,8 @@ export class AppService {
 
   async getStatus(): Promise<Object> {
     return new Promise(async response => {
-      let read = fs.readFileSync( './status' )
+      fs.unlinkSync('./status')
+      let read = fs.readFileSync('./status')
       response(JSON.parse(read))
     })
   }
