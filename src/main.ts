@@ -10,7 +10,6 @@ var db = new PouchDB('rewards')
 PouchDB.plugin(require('pouchdb-find'))
 let Crypto = require('crypto')
 const fs = require('fs')
-var path = require('path');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -287,7 +286,7 @@ async function writeStatus() {
           stake: balance
         }
         
-        if (path.existsSync('./status')) { 
+        if (fs.existsSync('./status')) { 
           fs.unlinkSync('./status')
         }
 
