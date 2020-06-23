@@ -5,6 +5,7 @@
 .env
 /rewards
 /rewards-*
+status
 
 # Logs
 logs
