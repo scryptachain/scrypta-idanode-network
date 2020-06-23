@@ -285,10 +285,6 @@ async function writeStatus() {
           shares: shares,
           stake: balance
         }
-        
-        if (fs.existsSync('./status')) { 
-          fs.unlinkSync('./status')
-        }
 
         fs.writeFileSync('./status', JSON.stringify(status))
         
