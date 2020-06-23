@@ -10,6 +10,7 @@ var db = new PouchDB('rewards')
 PouchDB.plugin(require('pouchdb-find'))
 let Crypto = require('crypto')
 const fs = require('fs')
+var path = require('path');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -285,8 +286,9 @@ async function writeStatus() {
           shares: shares,
           stake: balance
         }
-        
-        fs.writeFileSync('./status', JSON.stringify(status))
+        if (path.existsSync('./status')) { 
+          fs.writeFileSync('./status', JSON.stringify(status))
+        }
       }
 }
 
