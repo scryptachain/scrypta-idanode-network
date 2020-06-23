@@ -1,3 +1,8 @@
+
+![](https://miro.medium.com/max/3168/1*1gGxAKWqKQ5WzcQpu_vi2A.jpeg)  
+  
+[**Wiki English**](//en.scrypta.wiki/idanode/ "English — Scrypta Wiki") · · · [**Wiki italiano**](//en.scrypta.wiki/idanode/ "Italiano — Scrypta Wiki")
+
 # Scrypta IdaNode Network
 
 Questo repository servirà a gestire tutti gli IdaNode gestiti da Scrypta direttamente, così da poter accoppiare indirizzi IP con indirizzi Lyra dell'IdaNode e poter assegnare i sottodomini necessari ad operare via SSL.
