@@ -286,9 +286,13 @@ async function writeStatus() {
           shares: shares,
           stake: balance
         }
+        
         if (path.existsSync('./status')) { 
-          fs.writeFileSync('./status', JSON.stringify(status))
+          fs.unlinkSync('./status')
         }
+
+        fs.writeFileSync('./status', JSON.stringify(status))
+        
       }
 }
 
