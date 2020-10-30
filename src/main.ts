@@ -178,11 +178,13 @@ async function checkPayouts() {
         let nodes_git = await axios.get('https://raw.githubusercontent.com/scryptachain/scrypta-idanode-network/master/peers')
         let raw_nodes = nodes_git.data.split("\n")
         let unlockwallet = await RPC.request('walletpassphrase', [process.env.WALLET_PASSWORD, 999999])
-
+        const defaultIdanodeName = 'idanodejs'
+        
         if (unlockwallet['error'] === null) {
           for (let x in raw_nodes) {
             let node = raw_nodes[x].split(':')
-            let url = 'https://idanodejs' + node[0] + '.scryptachain.org'
+            let idanodeName = node[3] ? node[3] : defaultIdanodeName
+            let url = 'https://' + idanodeName + node[0] + '.scryptachain.org'
             let address = await scrypta.getAddressFromPubKey(node[2])
             console.info('SENDING PAYOUT TO ' + url + ' -> ADDRESS IS ' + address)
             let validateaddress = await RPC.request('validateaddress', [address])
