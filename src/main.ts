@@ -60,35 +60,46 @@ async function checkSystems() {
       for (let k in idanodes) {
         let node = idanodes[k]
         console.log('SYNC CHECK ON ' + node)
-        let check = await scrypta.get('/wallet/getinfo', node).catch(err => {
+        let call = await axios.get(node + '/wallet/getinfo', { timeout: 2500 }).catch(err => {
           console.log('IDANODE DOESN\'T ANSWER')
         })
-        if (check.blocks !== undefined && check.toindex <= 1) {
-          console.info('IDANODE IS SYNCED [' + check.toindex + ' BLOCKS]')
-          console.log('INTEGRITY CHECK ON ' + node)
+        try {
+          if (call !== undefined && call.data !== undefined) {
+            let check = call.data
+            if (check.blocks !== undefined && check.toindex <= 1) {
+              console.info('IDANODE IS SYNCED [' + check.toindex + ' BLOCKS]')
+              console.log('INTEGRITY CHECK ON ' + node)
 
-          let checksumversion = await checkVersion(check.version)
-          let integritycheck = await scrypta.get('/wallet/integritycheck', node)
+              let checksumversion = await checkVersion(check.version)
+              let integritycheck = await scrypta.get('/wallet/integritycheck', node)
 
-          if (checksumversion === integritycheck.checksum) {
-            console.info('IDANODE INTEGRITY CHECK PASSED')
+              if (checksumversion === integritycheck.checksum) {
+                console.info('IDANODE INTEGRITY CHECK PASSED')
 
-            let _id = Crypto.createHash("sha256").update(timestamp + 'N' + node).digest("hex")
-            let ref = Crypto.createHash("sha256").update(timestamp.toString()).digest("hex")
+                let _id = Crypto.createHash("sha256").update(timestamp + 'N' + node).digest("hex")
+                let ref = Crypto.createHash("sha256").update(timestamp.toString()).digest("hex")
 
-            db.put({
-              _id: _id,
-              node: node,
-              block: check.blocks,
-              toindex: check.toindex,
-              paid: false,
-              timestamp: timestamp,
-              ref: ref
-            })
+                db.put({
+                  _id: _id,
+                  node: node,
+                  block: check.blocks,
+                  toindex: check.toindex,
+                  paid: false,
+                  timestamp: timestamp,
+                  ref: ref
+                })
 
+              } else {
+                console.error('IDANODE IS CORRUPTED')
+              }
+            } else {
+              console.log('NODE NOT WORKING')
+            }
           } else {
-            console.error('IDANODE IS CORRUPTED')
+            console.log('NODE NOT WORKING')
           }
+        } catch (e) {
+          console.log(e)
         }
       }
 
@@ -220,75 +231,75 @@ async function checkPayouts() {
 async function writeStatus() {
   let dbinfo
 
-      try {
-        dbinfo = await db.info()
-      } catch (e) {
-        console.log('DB IS NOT WORKING')
+  try {
+    dbinfo = await db.info()
+  } catch (e) {
+    console.log('DB IS NOT WORKING')
+  }
+
+  if (dbinfo !== undefined) {
+    let RPC = new ScryptaRPC.Wallet
+    let getinfo = await RPC.request('getinfo')
+    let idanodes = await scrypta.returnNodes()
+    let unpaid = await db.find({
+      selector: {
+        paid: false
       }
+    })
+    unpaid.docs.sort(function (a, b) { return a.block - b.block })
+    let toPay = unpaid.docs
+    let payoutByNodes = {}
+    let payoutByNodesCount = {}
 
-      if (dbinfo !== undefined) {
-        let RPC = new ScryptaRPC.Wallet
-        let getinfo = await RPC.request('getinfo')
-        let idanodes = await scrypta.returnNodes()
-        let unpaid = await db.find({
-          selector: {
-            paid: false
-          }
-        })
-        unpaid.docs.sort(function (a, b) { return a.block - b.block })
-        let toPay = unpaid.docs
-        let payoutByNodes = {}
-        let payoutByNodesCount = {}
-
-        for (let x in toPay) {
-          let payout = toPay[x]
-          if (payoutByNodes[payout.node] === undefined) {
-            payoutByNodes[payout.node] = []
-          }
-          if (payout.paid === false) {
-            payoutByNodes[payout.node].push(payout)
-          }
-        }
-        let balance = getinfo['result']['balance']
-        let stake = idanodes.length * 5000
-        balance = balance - stake
-
-        if (balance < 0) {
-          balance = 0
-        }
-        let totpayouts = 0
-
-        for (let k in payoutByNodes) {
-          payoutByNodesCount[k] = payoutByNodes[k].length
-          totpayouts += payoutByNodes[k].length
-        }
-        let shares = {}
-        let earnings = {}
-        for (let k in payoutByNodes) {
-          var share = (balance * payoutByNodes[k].length / totpayouts).toFixed(8)
-          earnings[k] = share
-          if (balance > 0) {
-            let percentage = (100 / balance * parseFloat(share)).toFixed(2)
-            shares[k] = parseFloat(percentage)
-            earnings[k] = parseFloat(share) - 0.003
-          } else {
-            shares[k] = 0
-          }
-        }
-
-        let midpayouts = totpayouts / idanodes.length
-
-        let status = {
-          uptime: payoutByNodesCount,
-          timing: parseFloat(midpayouts.toFixed(0)),
-          earnings: earnings,
-          shares: shares,
-          stake: balance
-        }
-
-        fs.writeFileSync('./status', JSON.stringify(status))
-        
+    for (let x in toPay) {
+      let payout = toPay[x]
+      if (payoutByNodes[payout.node] === undefined) {
+        payoutByNodes[payout.node] = []
       }
+      if (payout.paid === false) {
+        payoutByNodes[payout.node].push(payout)
+      }
+    }
+    let balance = getinfo['result']['balance']
+    let stake = idanodes.length * 5000
+    balance = balance - stake
+
+    if (balance < 0) {
+      balance = 0
+    }
+    let totpayouts = 0
+
+    for (let k in payoutByNodes) {
+      payoutByNodesCount[k] = payoutByNodes[k].length
+      totpayouts += payoutByNodes[k].length
+    }
+    let shares = {}
+    let earnings = {}
+    for (let k in payoutByNodes) {
+      var share = (balance * payoutByNodes[k].length / totpayouts).toFixed(8)
+      earnings[k] = share
+      if (balance > 0) {
+        let percentage = (100 / balance * parseFloat(share)).toFixed(2)
+        shares[k] = parseFloat(percentage)
+        earnings[k] = parseFloat(share) - 0.003
+      } else {
+        shares[k] = 0
+      }
+    }
+
+    let midpayouts = totpayouts / idanodes.length
+
+    let status = {
+      uptime: payoutByNodesCount,
+      timing: parseFloat(midpayouts.toFixed(0)),
+      earnings: earnings,
+      shares: shares,
+      stake: balance
+    }
+
+    fs.writeFileSync('./status', JSON.stringify(status))
+
+  }
 }
 
 bootstrap()
