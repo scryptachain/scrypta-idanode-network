@@ -175,7 +175,7 @@ async function checkPayouts() {
 
       if (midpayouts >= maxpayouts) {
         console.log('24H PASSED, DISTRIBUTING SHARES.')
-        let nodes_git = await axios.get('https://raw.githubusercontent.com/scryptachain/scrypta-idanode-network/master/peers')
+        let nodes_git = await axios.get('https://raw.githubusercontent.com/scryptachain/scrypta-idanode-network/master/peersv2')
         let raw_nodes = nodes_git.data.split("\n")
         let unlockwallet = await RPC.request('walletpassphrase', [process.env.WALLET_PASSWORD, 999999])
         const defaultIdanodeName = 'idanodejs'
