@@ -203,18 +203,18 @@ export class AppService {
   }
 
   async writeStatus() {
+    console.log('WRITING STATUS')
     let RPC = new ScryptaRPC.Wallet
     let getinfo = await RPC.request('getinfo')
     let idanodes = await scrypta.returnNodes()
     let unpaid = await this.rewardModel.find({
       paid: false
     }).sort({ block: -1 }).exec()
-    let toPay = unpaid.docs
     let payoutByNodes = {}
     let payoutByNodesCount = {}
 
-    for (let x in toPay) {
-      let payout = toPay[x]
+    for (let x in unpaid) {
+      let payout = unpaid[x]
       if (payoutByNodes[payout.node] === undefined) {
         payoutByNodes[payout.node] = []
       }
