@@ -3,10 +3,11 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { MongooseModule } from '@nestjs/mongoose';
 import { Reward, RewardSchema } from './schemas/reward.schema';
+require('dotenv').config()
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/pool?retryWrites=true&w=1'),
+    MongooseModule.forRoot(process.env.MONGODB_CONNECTION),
     MongooseModule.forFeature(
       [
         { name: Reward.name, schema: RewardSchema },
